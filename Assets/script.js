@@ -3,14 +3,21 @@ var city = document.getElementById('enter-city');
 var searchButton = document.getElementById('search-button');
 var weatherNow= document.getElementById('weatherNow');
 var savedData= document.getElementById('savedData')
+let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 
 function weatherData(cityName) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
-    /*search.value.trim?*/
     console.log(apiUrl);
 };
 
 searchButton.addEventListener('click', function () {
+    /*trims spaces for cities with spaces to avoid breaking api url*/
+    /*trims spaces for cities with spaces to avoid breaking api url*/
+    /*trims spaces for cities with spaces to avoid breaking api url*/
+    /*trims spaces for cities with spaces to avoid breaking api url*/
+    /*trims spaces for cities with spaces to avoid breaking api url*/
+    /*trims spaces for cities with spaces to avoid breaking api url*/
+    /*trims spaces for cities with spaces to avoid breaking api url*/
     /*trims spaces for cities with spaces to avoid breaking api url*/
     const searchTerm = city.value.trim();
     weatherData(searchTerm);
@@ -28,19 +35,22 @@ document.getElementById("enter-city")
 
 /*save input in local storage and display under search history*/
 function history() {
+    const searchTerm = city.value;
+    weatherData(searchTerm);
+    searchHistory.push(searchTerm);
+    localStorage.setItem("search", JSON.stringify(searchHistory));
     savedData.textContent = (city.value);
     console.log(savedData.textContent);
-    localStorage.setItem("history", JSON.stringify(savedData));
-
+    localStorage.setItem("history", JSON.stringify(savedData.textContent));
 };
 
-/*save multiple city searches and make them buttons to redirect back*/
-/*adjust spacing for history... display under History Banner*/
+/*reloads function when clicking city name in history */
+savedData.addEventListener("click", function() {
+    searchTerm = city.value;
+    weatherData(searchTerm)
+}); 
+
+/*save multiple city searches*/
 
 
-/* https://api.openweathermap.org/data/2.5/weather?q=Newark&appid=2831e983c10c1f8b557906c4cc256f77 
-
-var getWeather = function(city) {
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
-
-};*/
+/* https://api.openweathermap.org/data/2.5/weather?q=Newark&appid=2831e983c10c1f8b557906c4cc256f77 */
