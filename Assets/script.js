@@ -4,20 +4,39 @@ var searchButton = document.getElementById('search-button');
 var weatherNow= document.getElementById('weatherNow');
 var savedData= document.getElementById('savedData')
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
+var UvIndexNow = document.getElementById('UvIndexNow');
+var WeatherImage = document.getElementById('WeatherImage');
+var NameOfCity = document.getElementById("NameOfCity");
+var temperature = document.getElementById("temperature");
+var humidity = document.getElementById("humidity");
+var windSpeed = document.getElementById("windSpeed");
 
 function weatherData(cityName) {
+    /*first API Call */
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
     console.log(apiUrl);
-};
+    console.log(cityName)
+    
+    fetch(apiUrl)
+    .then(function (res) {
+        console.log(res)
+        return res.json();
+        // temperature.inneraHTML = "Temperature " + response.data.main.temp + "degrees";
+        // humidity.innerHTML = "Humidity " + response.data.main.humidity + "%";
+        // windSpeed.innerHTML = "Wind Speed " + response.data.wind.speed + "MPH";
+        // var icon = response.data.weather[0].icon;
+        // WeatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+
+    }
+)};
+
+
+
+
+
+
 
 searchButton.addEventListener('click', function () {
-    /*trims spaces for cities with spaces to avoid breaking api url*/
-    /*trims spaces for cities with spaces to avoid breaking api url*/
-    /*trims spaces for cities with spaces to avoid breaking api url*/
-    /*trims spaces for cities with spaces to avoid breaking api url*/
-    /*trims spaces for cities with spaces to avoid breaking api url*/
-    /*trims spaces for cities with spaces to avoid breaking api url*/
-    /*trims spaces for cities with spaces to avoid breaking api url*/
     /*trims spaces for cities with spaces to avoid breaking api url*/
     const searchTerm = city.value.trim();
     weatherData(searchTerm);
@@ -36,7 +55,7 @@ document.getElementById("enter-city")
 /*save input in local storage and display under search history*/
 function history() {
     const searchTerm = city.value;
-    weatherData(searchTerm);
+   // weatherData(searchTerm);
     searchHistory.push(searchTerm);
     localStorage.setItem("search", JSON.stringify(searchHistory));
     savedData.textContent = (city.value);
@@ -50,7 +69,8 @@ savedData.addEventListener("click", function() {
     weatherData(searchTerm)
 }); 
 
-/*save multiple city searches*/
+/*display multiple city searches*/
+/*trims spaces for cities with spaces to avoid breaking api url*/
 
 
 /* https://api.openweathermap.org/data/2.5/weather?q=Newark&appid=2831e983c10c1f8b557906c4cc256f77 */

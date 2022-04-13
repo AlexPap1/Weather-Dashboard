@@ -19,3 +19,24 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
+
+
+        /*second API call for UV index*/
+        let lat = response.data.coord.lat;
+        let lon = response.data.coord.lon;
+        let UvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&cnt=1";
+        fetch(UvUrl).then(function(response) {
+            let UvIndex = document.createElement("span");
+            /* UV index changes color based on response*/
+            if (response.data[0].value < 4 ) {
+                UvIndex.setAttribute("class", "badge badge-success");
+            }
+            else if (response.data[0].value < 8) {
+                UvIndex.setAttribute("class", "badge badge-warning");
+            }
+            else {
+                UvIndex.setAttribute("class", "badge badge-danger");
+            }   
+            UvIndexNow=innerHTML = "UV Index: ";
+            UvIndexNow.append(UvIndex);
+        });
