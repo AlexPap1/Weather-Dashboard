@@ -37,16 +37,16 @@ function weatherData(cityName) {
         console.log(UVQueryURL);
         fetch(UVQueryURL).then((data) => {
                 // When UV Index is good, shows green, when ok shows yellow, when bad shows red
-                if (data.value < 4 ) {
+                if (data[0].value < 4 ) {
                     UvIndex.setAttribute("class", "text-success");
                 }
-                else if (data.value < 8) {
+                else if (data[0].value < 8) {
                     UvIndex.setAttribute("class", "text-warning");
                 }
                 else {
                     UvIndex.setAttribute("class", "text-danger");
                 }
-                UvIndex.innerHTML = "UV Index: " + data.value;
+                UvIndex.innerHTML = "UV Index: " + data[0].value;
             });
             console.log(data.value);
         });
