@@ -20,13 +20,13 @@ function weatherData(cityName) {
 
         res.json().then((data) => {
     
-          console.log(data);
-          nameOfCity.innerHTML = data.name;
-          temperature.innerHTML = "Temperature " + Math.round(((data.main.temp)-273) * (9/5) + 32) + " &#176F";
-          humidity.innerHTML = "Humidity " + data.main.humidity + "%";
-          windSpeed.innerHTML = "Wind Speed " + data.wind.speed + "MPH";
-          var icon = data.weather[0].icon;
-          WeatherImage.setAttribute(
+            console.log(data);
+            nameOfCity.innerHTML = data.name;
+            temperature.innerHTML = "Temperature " + Math.round(((data.main.temp)-273) * (9/5) + 32) + " &#176F";
+            humidity.innerHTML = "Humidity " + data.main.humidity + "%";
+            windSpeed.innerHTML = "Wind Speed " + data.wind.speed + "MPH";
+            var icon = data.weather[0].icon;
+            WeatherImage.setAttribute(
             "src",
             "https://openweathermap.org/img/wn/" + icon + "@2x.png"
           );
@@ -36,6 +36,7 @@ function weatherData(cityName) {
         let UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&cnt=1";
         console.log(UVQueryURL);
         fetch(UVQueryURL).then((data) => {
+            res.json().then((data) => {
                 // When UV Index is good, shows green, when ok shows yellow, when bad shows red
                 if (data[0].value < 4 ) {
                     UvIndex.setAttribute("class", "text-success");
@@ -47,7 +48,7 @@ function weatherData(cityName) {
                     UvIndex.setAttribute("class", "text-danger");
                 }
                 UvIndex.innerHTML = "UV Index: " + data[0].value;
-            });
+            })});
             console.log(data.value);
         });
       });
