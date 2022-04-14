@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+    <!--header-->
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,12 +12,12 @@
         <script defer src="./Assets/script.js"></script>
         <title>Weather Dashboard</title>
     </head>
-
+<!--body-->
 <body>
     <header class="jumbotron text-white bg-primary text-center">
         <h1 class="title">Weather Dashboard</h1>
     </header>
-
+    <!--search container-->
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 search-container ml-4 pb-2 border-bottom border-dark">
@@ -28,11 +28,13 @@
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                 </div>
+                <!--history container-->
                 <div class="history-container col ml-4">
                 <h2>History</h2>
                 <form id="savedData"></form>
                 </div>
             </div>
+            <!--weather card today-->
             <div class="col-lg-8 weather-container">
                 <div class="row">
                     <div class="col-12 text-center d-none bg-dark text-white" id="weatherNow">
@@ -45,6 +47,7 @@
                             <p id="UvIndexNow"></p>
                             <img id="WeatherImage" alt="current weather">
                     </div>
+                <!--five day forecast-->
                 <div class="row text-center">
                     <div class="day-one col-2">
                         <p>Lorem Ipsum is simply dummy text of the printing and </p>

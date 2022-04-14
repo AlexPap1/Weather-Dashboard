@@ -1,3 +1,4 @@
+//global
 var apiKey = "2831e983c10c1f8b557906c4cc256f77";
 var city = document.getElementById('enter-city');
 var searchButton = document.getElementById('search-button');
