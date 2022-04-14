@@ -5,30 +5,33 @@ var weatherNow= document.getElementById('weatherNow');
 var savedData= document.getElementById('savedData')
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 var UvIndexNow = document.getElementById('UvIndexNow');
-var WeatherImage = document.getElementById('WeatherImage');
-var NameOfCity = document.getElementById("NameOfCity");
-var temperature = document.getElementById("temperature");
-var humidity = document.getElementById("humidity");
-var windSpeed = document.getElementById("windSpeed");
+const WeatherImage = document.getElementById('WeatherImage');
+const NameOfCity = document.getElementById("NameOfCity");
+const temperature = document.getElementById("temperature");
+const humidity = document.getElementById("humidity");
+const windSpeed = document.getElementById("windSpeed");
 
 function weatherData(cityName) {
     /*first API Call */
     weatherNow.classList.remove("d-none");
     let api = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
-    fetch(api)
-        .then((res) => {
-           return res.json();
-           temperature.innerHTML = "Temperature " + res.data.main.temp + "degrees";
-           humidity.innerHTML = "Humidity " + res.data.main.humidity + "%";
-           windSpeed.innerHTML = "Wind Speed " + res.data.wind.speed + "MPH";
-           var icon = res.data.weather[0].icon;
-           WeatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-        })
-        .then((data) => {
-            console.log(data)
-        })
-        
-}
+    fetch(api).then((res) => {
+
+        res.json().then((data) => {
+    
+          console.log(data);
+          temperature.innerHTML = "Temperature " + data.main.temp + "degrees";
+          humidity.innerHTML = "Humidity " + data.main.humidity + "%";
+          windSpeed.innerHTML = "Wind Speed " + data.wind.speed + "MPH";
+          var icon = data.weather[0].icon;
+          WeatherImage.setAttribute(
+            "src",
+            "https://openweathermap.org/img/wn/" + icon + "@2x.png"
+          );
+          
+        });
+      });
+};
 
 
 searchButton.addEventListener('click', function () {
@@ -37,6 +40,7 @@ searchButton.addEventListener('click', function () {
     weatherData(searchTerm);
     console.log(searchTerm);
     history();
+    renderSearchHistory();
 });
 
 /*makes enter button trigger search button click*/
@@ -64,8 +68,10 @@ savedData.addEventListener("click", function() {
     weatherData(searchTerm)
 }); 
 
+
+
+
 /*display multiple city searches*/
-/*trims spaces for cities with spaces to avoid breaking api url*/
 
 
 /* https://api.openweathermap.org/data/2.5/weather?q=Newark&appid=2831e983c10c1f8b557906c4cc256f77 */
