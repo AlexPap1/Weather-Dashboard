@@ -13,6 +13,7 @@ var windSpeed = document.getElementById("windSpeed");
 
 function weatherData(cityName) {
     /*first API Call */
+    weatherNow.classList.remove("d-none");
     let api = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
     fetch(api)
         .then((res) => {
