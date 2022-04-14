@@ -17,7 +17,7 @@ function weatherData(cityName) {
     fetch(api)
         .then((res) => {
            return res.json();
-           temperature.inneraHTML = "Temperature " + res.data.main.temp + "degrees";
+           temperature.innerHTML = "Temperature " + res.data.main.temp + "degrees";
            humidity.innerHTML = "Humidity " + res.data.main.humidity + "%";
            windSpeed.innerHTML = "Wind Speed " + res.data.wind.speed + "MPH";
            var icon = res.data.weather[0].icon;
