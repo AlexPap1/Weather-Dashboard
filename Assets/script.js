@@ -4,7 +4,7 @@ var searchButton = document.getElementById('search-button');
 var weatherNow= document.getElementById('weatherNow');
 var savedData= document.getElementById('savedData')
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
-var UvIndexNow = document.getElementById('UvIndexNow');
+var UvIndex = document.getElementById('UvIndexNow');
 const WeatherImage = document.getElementById('WeatherImage');
 const temperature = document.getElementById("temperature");
 const humidity = document.getElementById("humidity");
@@ -29,7 +29,22 @@ function weatherData(cityName) {
             "src",
             "https://openweathermap.org/img/wn/" + icon + "@2x.png"
           );
-          
+        //add UV index api call
+        let lat = data.coord.lat;
+        let lon = data.coord.lon;
+        let UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&cnt=1";
+        fetch(UVQueryURL).then((data) => {
+                // When UV Index is good, shows green, when ok shows yellow, when bad shows red
+                if (res.data[0].value < 4 ) {
+                    UvIndex.setAttribute("class", "text-success");
+                }
+                else if (res.data[0].value < 8) {
+                    UvIndex.setAttribute("class", "text-warning");
+                }
+                else {
+                    UvIndex.setAttribute("class", "text-danger");
+                }
+            });
         });
       });
 };
