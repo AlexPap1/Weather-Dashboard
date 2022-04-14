@@ -13,27 +13,21 @@ var windSpeed = document.getElementById("windSpeed");
 
 function weatherData(cityName) {
     /*first API Call */
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
-    console.log(apiUrl);
-    console.log(cityName)
-    
-    fetch(apiUrl)
-    .then(function (res) {
-        console.log(res)
-        return res.json();
-        // temperature.inneraHTML = "Temperature " + response.data.main.temp + "degrees";
-        // humidity.innerHTML = "Humidity " + response.data.main.humidity + "%";
-        // windSpeed.innerHTML = "Wind Speed " + response.data.wind.speed + "MPH";
-        // var icon = response.data.weather[0].icon;
-        // WeatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
-
-    }
-)};
-
-
-
-
-
+    let api = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
+    fetch(api)
+        .then((res) => {
+           return res.json();
+           temperature.inneraHTML = "Temperature " + res.data.main.temp + "degrees";
+           humidity.innerHTML = "Humidity " + res.data.main.humidity + "%";
+           windSpeed.innerHTML = "Wind Speed " + res.data.wind.speed + "MPH";
+           var icon = res.data.weather[0].icon;
+           WeatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+        })
+        .then((data) => {
+            console.log(data)
+        })
+        
+}
 
 
 searchButton.addEventListener('click', function () {

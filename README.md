@@ -40,3 +40,37 @@ THEN I am again presented with current and future conditions for that city
             UvIndexNow=innerHTML = "UV Index: ";
             UvIndexNow.append(UvIndex);
         });
+
+
+
+        function weatherData(cityName) {
+    /*first API Call */
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
+    console.log(apiUrl);
+    console.log(cityName)
+    
+    fetch(apiUrl)
+    .then(function (res) {
+        console.log(res)
+        return res.json();
+        // temperature.inneraHTML = "Temperature " + response.data.main.temp + "degrees";
+        // humidity.innerHTML = "Humidity " + response.data.main.humidity + "%";
+        // windSpeed.innerHTML = "Wind Speed " + response.data.wind.speed + "MPH";
+        // var icon = response.data.weather[0].icon;
+        // WeatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+
+    }
+)};
+
+function fireFirst() {
+    let api = "https://api.openweathermap.org/data/2.5/weather?q=Trenton&appid=2831e983c10c1f8b557906c4cc256f77"
+    fetch(api)
+        .then((res) =>//replace with funton {
+           return res.json();
+        })
+        .then((data) => {
+            console.log(data)
+        })
+}
+
+fireFirst();
