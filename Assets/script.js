@@ -6,10 +6,10 @@ var savedData= document.getElementById('savedData')
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 var UvIndexNow = document.getElementById('UvIndexNow');
 const WeatherImage = document.getElementById('WeatherImage');
-const NameOfCity = document.getElementById("NameOfCity");
 const temperature = document.getElementById("temperature");
 const humidity = document.getElementById("humidity");
 const windSpeed = document.getElementById("windSpeed");
+const nameOfCity = document.getElementById("cityName");
 
 function weatherData(cityName) {
     /*first API Call */
@@ -20,7 +20,8 @@ function weatherData(cityName) {
         res.json().then((data) => {
     
           console.log(data);
-          temperature.innerHTML = "Temperature " + data.main.temp + "degrees";
+          nameOfCity.innerHTML = data.name;
+          temperature.innerHTML = "Temperature " + Math.round((data.main.temp)-273) + " degrees Celcius";
           humidity.innerHTML = "Humidity " + data.main.humidity + "%";
           windSpeed.innerHTML = "Wind Speed " + data.wind.speed + "MPH";
           var icon = data.weather[0].icon;
@@ -33,14 +34,13 @@ function weatherData(cityName) {
       });
 };
 
-
 searchButton.addEventListener('click', function () {
     /*trims spaces for cities with spaces to avoid breaking api url*/
     const searchTerm = city.value.trim();
     weatherData(searchTerm);
     console.log(searchTerm);
     history();
-    renderSearchHistory();
+    document.getElementById("date").innerHTML = Date();
 });
 
 /*makes enter button trigger search button click*/
@@ -72,6 +72,8 @@ savedData.addEventListener("click", function() {
 
 
 /*display multiple city searches*/
+/*uv Index*/
+/*five day forecast*/
 
 
 /* https://api.openweathermap.org/data/2.5/weather?q=Newark&appid=2831e983c10c1f8b557906c4cc256f77 */
