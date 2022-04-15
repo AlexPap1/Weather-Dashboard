@@ -35,21 +35,21 @@ function weatherData(cityName) {
         let lon = data.coord.lon;
         let UVQueryURL = "https://api.openweathermap.org/data/2.5/uvi/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey + "&cnt=1";
         console.log(UVQueryURL);
-        fetch(UVQueryURL).then((data) => {
+        fetch(UVQueryURL).then((res) => {
             res.json().then((data) => {
-                // When UV Index is good, shows green, when ok shows yellow, when bad shows red
-                if (data[0].value < 4 ) {
-                    UvIndex.setAttribute("class", "text-success");
-                }
-                else if (data[0].value < 8) {
-                    UvIndex.setAttribute("class", "text-warning");
-                }
-                else {
-                    UvIndex.setAttribute("class", "text-danger");
-                }
-                UvIndex.innerHTML = "UV Index: " + data[0].value;
-            })});
+              console.log(data);
+              // When UV Index is good, shows green, when ok shows yellow, when bad shows red
+              if (data[0].value < 2) {
+                UvIndex.setAttribute('class', 'text-success');
+              } else if (data[0].value < 7) {
+                UvIndex.setAttribute('class', 'text-warning');
+              } else {
+                UvIndex.setAttribute('class', 'text-danger');
+              }
+              UvIndex.innerHTML = 'UV Index: ' + data[0].value;
+            });
             console.log(data.value);
+          });
         });
       });
 };
