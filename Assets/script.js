@@ -48,16 +48,100 @@ function weatherData(cityName) {
               }
               UvIndex.innerHTML = 'UV Index: ' + data[0].value;
             });
-            console.log(data.value);
           });
         });
       });
+};
+
+//api call for five day forecast
+function weatherDataFuture(cityName) {
+   let apiSecond = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+    fetch(apiSecond)
+    .then(function(response){
+       return response.json()
+   }).then(function(data){
+    console.log("future array")
+       displayData(data);
+  })
+};
+
+function displayData(data){
+    //create holder for data
+    document.querySelector(".forecast").textContent= "";
+    var dataHolder = document.createElement("div");
+    dataHolder.classList.add("row")
+     document.querySelector(".forecast").appendChild(dataHolder)
+    //runs current date at i+7 but wont include fifth day at i+8
+    for(var i = 0; i<40; i=i+7) {
+        var theDay = data.list[i].dt_txt
+        console.log(theDay);
+        var dt = data.list[i].main.temp
+        console.log(dt);
+        //css for cards
+        var dataHolder = document.createElement("div");
+        dataHolder.classList.add("card");
+        dataHolder.classList.add("col-2");
+        dataHolder.classList.add("bg-dark");
+        dataHolder.classList.add("text-light");
+        document.querySelector(".forecast").appendChild(dataHolder);
+        //content within each card
+        var day = document.createElement("h3");
+        theDay = theDay.split(" ");
+        console.log(theDay);
+        editedDay = theDay[0].split("-");
+        console.log(editedDay);
+        var monthInWords = ""
+            if (editedDay[1] == '01') {
+                monthInWords = "Jan"
+            } else if (editedDay[1] == '02') {
+                monthInWords = "Feb"
+            } else if (editedDay[1] == '03') {
+                monthInWords = "Mar"
+            } else if (editedDay[1] == '04') {
+                monthInWords = "Apr"
+            } else if (editedDay[1] == '05') {
+                monthInWords = "May"
+            } else if (editedDay[1] == '06') {
+                monthInWords = "Jun"
+            } else if (editedDay[1] == '07') {
+                monthInWords = "Jul"
+            } else if (editedDay[1] == '08') {
+                monthInWords = "Aug"
+            } else if (editedDay[1] == '09') {
+                monthInWords = "Sep"
+            } else if (editedDay[1] == '10') {
+                monthInWords = "Oct"
+            } else if (editedDay[1] == '11') {
+                monthInWords = "Nov"
+            } else {
+                monthInWords = "Dec"
+            }
+        console.log(monthInWords);
+        day.textContent = monthInWords + " " + editedDay[2];
+        dataHolder.appendChild(day);
+        //image for each card
+        var weatherImage = document.createElement("img");
+        var icon = data.list[i].weather[0].icon;
+         weatherImage.setAttribute("src", "https://openweathermap.org/img/wn/" + icon + "@2x.png");
+         dataHolder.appendChild(weatherImage);
+        //temp/wind/humidity for each card
+         var temp = document.createElement("p");
+        temp.textContent = ("Temperature " + data.list[i].main.temp + " °F");
+        dataHolder.appendChild(temp);
+        var humidity = document.createElement("p");
+         humidity.textContent = ("Humidity " + data.list[i].main.humidity + "%");
+         dataHolder.appendChild(humidity);
+         var windSpeed = document.createElement("p");
+         windSpeed.textContent = ("Wind Speed " + data.list[i].wind.speed + "MPH");
+         dataHolder.appendChild(windSpeed);
+   }
 };
 
 searchButton.addEventListener('click', function () {
     /*trims spaces for cities with spaces to avoid breaking api url*/
     const searchTerm = city.value.trim();
     weatherData(searchTerm);
+    weatherDataFuture(searchTerm);
     console.log(searchTerm);
     history();
     document.getElementById("date").innerHTML = Date();
@@ -77,23 +161,25 @@ function history() {
    // weatherData(searchTerm);
     searchHistory.push(searchTerm);
     localStorage.setItem("search", JSON.stringify(searchHistory));
-    savedData.textContent = (city.value);
-    console.log(savedData.textContent);
     localStorage.setItem("history", JSON.stringify(savedData.textContent));
+    renderHistory();
 };
 
-/*reloads function when clicking city name in history */
-savedData.addEventListener("click", function() {
-    searchTerm = city.value;
-    weatherData(searchTerm)
-}); 
+//fixed to display all history items
+function renderHistory() {
+    savedData.innerHTML = "";
+    for (let i = 0; i < searchHistory.length; i++) {
+        const historyItem = document.createElement("input");
+        historyItem.setAttribute("type", "text");
+        historyItem.setAttribute("value", searchHistory[i]);
+        historyItem.addEventListener("click", function() {
+            weatherData(historyItem.value);
+        })
+        savedData.append(historyItem);
+    }
+}
 
-
-
-
-/*display multiple city searches*/
-/*uv Index*/
 /*five day forecast*/
 
-
+//sample api link to test
 /* https://api.openweathermap.org/data/2.5/weather?q=Newark&appid=2831e983c10c1f8b557906c4cc256f77 */
