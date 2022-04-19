@@ -1,30 +1,33 @@
 //global
 var apiKey = "2831e983c10c1f8b557906c4cc256f77";
-var city = document.getElementById('enter-city');
-var searchButton = document.getElementById('search-button');
+var city = document.getElementById('input-city');
+var searchButton = document.getElementById('search-btn');
 var weatherNow= document.getElementById('weatherNow');
 var savedData= document.getElementById('savedData')
 let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 const UvIndex = document.getElementById('UvIndexNow');
 const WeatherImage = document.getElementById('WeatherImage');
+const windSpeed = document.getElementById("windSpeed");
 const temperature = document.getElementById("temperature");
 const humidity = document.getElementById("humidity");
-const windSpeed = document.getElementById("windSpeed");
-const nameOfCity = document.getElementById("cityName");
+const nameOfTown = document.getElementById("townTitle");
 
-function weatherData(cityName) {
+function weatherData(townTitle) {
     /*first API Call */
     weatherNow.classList.remove("d-none");
-    let api = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
+    let api = "https://api.openweathermap.org/data/2.5/weather?q=" + townTitle + "&appid=" + apiKey;
     fetch(api).then((res) => {
 
         res.json().then((data) => {
     
             console.log(data);
-            nameOfCity.innerHTML = data.name;
-            temperature.innerHTML = "Temperature " + Math.round(((data.main.temp)-273) * (9/5) + 32) + " &#176F";
-            humidity.innerHTML = "Humidity " + data.main.humidity + "%";
-            windSpeed.innerHTML = "Wind Speed " + data.wind.speed + "MPH";
+            nameOfTown.innerHTML = data.name;
+            //convert temp from default Kelvin to Farenheit text
+            temperature.innerHTML = "Temperature= " + Math.round(((data.main.temp)-273) * (9/5) + 32) + " &#176F";
+            //wind speed measured in MPH text
+            windSpeed.innerHTML = "Wind Speed= " + data.wind.speed + "MPH";
+            //humidity measured as a percent text
+            humidity.innerHTML = "Humidity= " + data.main.humidity + "%";
             var icon = data.weather[0].icon;
             WeatherImage.setAttribute(
             "src",
@@ -46,7 +49,7 @@ function weatherData(cityName) {
               } else {
                 UvIndex.setAttribute('class', 'text-danger');
               }
-              UvIndex.innerHTML = 'UV Index: ' + data[0].value;
+              UvIndex.innerHTML = 'UV Index for today is ' + data[0].value;
             });
           });
         });
@@ -54,8 +57,8 @@ function weatherData(cityName) {
 };
 
 //api call for five day forecast
-function weatherDataFuture(cityName) {
-   let apiSecond = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+function weatherDataFuture(townTitle) {
+   let apiSecond = "https://api.openweathermap.org/data/2.5/forecast?q=" + townTitle + "&units=imperial&appid=" + apiKey;
     fetch(apiSecond)
     .then(function(response){
        return response.json()
@@ -137,12 +140,13 @@ function displayData(data){
    }
 };
 
+//search button event listener to run function based on input
 searchButton.addEventListener('click', function () {
     /*trims spaces for cities with spaces to avoid breaking api url*/
-    const searchTerm = city.value.trim();
-    weatherData(searchTerm);
-    weatherDataFuture(searchTerm);
-    console.log(searchTerm);
+    const search = city.value.trim();
+    weatherData(search);
+    weatherDataFuture(search);
+    console.log(search);
     history();
     document.getElementById("date").innerHTML = Date();
 });
@@ -157,9 +161,9 @@ document.getElementById("enter-city")
 
 /*save input in local storage and display under search history*/
 function history() {
-    const searchTerm = city.value;
-   // weatherData(searchTerm);
-    searchHistory.push(searchTerm);
+    const search = city.value;
+   // weatherData(search);
+    searchHistory.push(search);
     localStorage.setItem("search", JSON.stringify(searchHistory));
     localStorage.setItem("history", JSON.stringify(savedData.textContent));
     renderHistory();
@@ -169,13 +173,15 @@ function history() {
 function renderHistory() {
     savedData.innerHTML = "";
     for (let i = 0; i < searchHistory.length; i++) {
-        const historyItem = document.createElement("input");
-        historyItem.setAttribute("type", "text");
-        historyItem.setAttribute("value", searchHistory[i]);
-        historyItem.addEventListener("click", function() {
-            weatherData(historyItem.value);
+        const historyConst = document.createElement("input");
+        historyConst.setAttribute("type", "text");
+        historyConst.setAttribute("value", searchHistory[i]);
+        historyConst.addEventListener("click", function() {
+            //runs todays forecast and 5 day future forecast based on clicked history element
+            weatherData(historyConst.value);
+            weatherDataFuture(historyConst.value);
         })
-        savedData.append(historyItem);
+        savedData.append(historyConst);
     }
 }
 
